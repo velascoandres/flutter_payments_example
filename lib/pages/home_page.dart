@@ -1,14 +1,14 @@
 import 'package:credit_card/credit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_payments_example/mocks/tarjetas_credito_mock.dart';
+import 'package:flutter_payments_example/widgets/total_pay_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
-
+    // asdasd
     return Scaffold(
       appBar: AppBar(
         title: Text('Pagar'),
@@ -43,6 +43,10 @@ class HomePage extends StatelessWidget {
               },
             ),
           ),
+          Positioned(
+            bottom: 0,
+            child: TotalPayButton(),
+          )
         ],
       ),
     );
