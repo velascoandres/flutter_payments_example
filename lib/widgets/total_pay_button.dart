@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_payments_example/bloc/pagar/pagar_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TotalPayButton extends StatelessWidget {
@@ -49,7 +51,14 @@ class TotalPayButton extends StatelessWidget {
 class _BtnPay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return false ? buildAppleAndGooglePay(context) : buildPayTarjeta(context);
+    return BlocBuilder<PagarBloc, PagarState>(
+      builder: (context, state) {
+          if (state.tarjetaActiva){
+            return buildPayTarjeta(context);
+          } 
+          return buildAppleAndGooglePay(context);
+      },
+    );
   }
 
   Widget buildAppleAndGooglePay(BuildContext context) {
