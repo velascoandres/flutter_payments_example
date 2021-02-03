@@ -41,7 +41,11 @@ class TotalPayButton extends StatelessWidget {
               )
             ],
           ),
-          _BtnPay(),
+          BlocBuilder<PagarBloc, PagarState>(
+            builder: (context, state) {
+              return _BtnPay(pagarState: state,);
+            },
+          ),
         ],
       ),
     );
@@ -49,16 +53,17 @@ class TotalPayButton extends StatelessWidget {
 }
 
 class _BtnPay extends StatelessWidget {
+
+  final PagarState pagarState;
+
+  const _BtnPay({this.pagarState});
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PagarBloc, PagarState>(
-      builder: (context, state) {
-          if (state.tarjetaActiva){
-            return buildPayTarjeta(context);
-          } 
-          return buildAppleAndGooglePay(context);
-      },
-    );
+      if (pagarState.tarjetaActiva) {
+          return buildPayTarjeta(context);
+        }
+        return buildAppleAndGooglePay(context);
   }
 
   Widget buildAppleAndGooglePay(BuildContext context) {
