@@ -32,6 +32,8 @@ dependencies:
   flutter_bloc: ^6.1.1
   bloc: ^6.1.1
   credit_card: ^0.1.8
+  dio: ^3.0.10
+  stripe_payment: ^1.0.10
   
 dev_dependencies:
   flutter_test:
