@@ -57,11 +57,33 @@ class StripeService {
     }
   }
 
-  Future pagarConTarjetaExistente({
+  Future<StripeCustomResponse> pagarConTarjetaExistente({
     @required String amount,
     @required String currency,
     @required CreditCard card,
-  }) async {}
+  }) async {
+    try {
+      final paymentMethod = await StripePayment.createPaymentMethod(
+        PaymentMethodRequest(card: card),
+      );
+
+      final respuestaPago = await this._realizarPago(
+        amount: amount,
+        currency: currency,
+        paymentMethod: paymentMethod,
+      );
+
+      return StripeCustomResponse(
+        ok: true,
+        msg: 'Todo ok',
+      );
+    } catch (e) {
+      return StripeCustomResponse(
+        ok: false,
+        msg: e.toString(),
+      );
+    }
+  }
 
   Future pagarApplePayGooglePay({
     @required String amount,
@@ -113,12 +135,12 @@ class StripeService {
         ),
       );
 
-      if (paymentResult.status == 'succeeded'){
+      if (paymentResult.status == 'succeeded') {
         return StripeCustomResponse(ok: true, msg: 'Pago realizado');
       } else {
-        return StripeCustomResponse(ok: false, msg: 'Fallo: ${paymentResult.status}');
+        return StripeCustomResponse(
+            ok: false, msg: 'Fallo: ${paymentResult.status}');
       }
-
     } catch (e) {
       return StripeCustomResponse(ok: false, msg: e.toString());
     }
