@@ -92,7 +92,9 @@ class _BtnPay extends StatelessWidget {
           Text('Pagar', style: TextStyle(color: Colors.white, fontSize: 22)),
         ],
       ),
-      onPressed: () async {},
+      onPressed: () async {
+       await this._establecerPagoGooglePay(context);
+      },
     );
   }
 
@@ -144,6 +146,27 @@ class _BtnPay extends StatelessWidget {
         expYear: anio,
         cvc: tarjeta.cvv,
       ),
+    );
+
+    Navigator.pop(context);
+    if (response.ok) {
+      mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+    } else {
+      mostrarAlerta(context, 'Notificación', 'Algo salió mal');
+    }
+  }
+
+  Future _establecerPagoGooglePay(BuildContext context) async {
+    mostrarLoading(context);
+
+    final stripeService = new StripeService();
+    final state = context.read<PagarBloc>().state;
+    final monto = state.montoPagarString;
+    final moneda = state.moneda;
+
+    final response = await stripeService.pagarApplePayGooglePay(
+      amount: monto,
+      currency: moneda,
     );
 
     Navigator.pop(context);
