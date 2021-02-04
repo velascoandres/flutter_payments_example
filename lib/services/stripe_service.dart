@@ -13,8 +13,10 @@ class StripeService {
 
   factory StripeService() => _instance;
 
-  String publishableKey = 'pk_test_iAcplaq4fZ9jJ7coXZp3EhKB00L0fu04WZ';
-  static String _secretKey = 'sk_test_tCmRg9kSMYGt1JyONXYbO52s00y6yAl4SE';
+  // API KEYS
+  String publishableKey = '<TODO: Poner el respectivo key>';
+  static String _secretKey = '<TODO: Poner el respectivo key>';
+
   String _paymentUrl = 'https://api.stripe.com/v1/payment_intents';
 
   final headersOptions = new Options(
