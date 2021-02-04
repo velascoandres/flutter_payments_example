@@ -27,12 +27,12 @@ class HomePage extends StatelessWidget {
               final monto = pagarBloc.state.montoPagarString;
               final moneda = pagarBloc.state.moneda;
 
-              mostrarLoading(context);
+              // mostrarLoading(context);
               final resp = await this.stripeService.pagarConNuevaTarjeta(
                     amount: monto,
                     currency: moneda,
                   );
-              Navigator.pop(context);
+              // Navigator.pop(context);
               if (resp.ok) {
                 mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
               } else {
