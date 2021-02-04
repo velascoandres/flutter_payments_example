@@ -39,8 +39,11 @@ class StripeService {
       final paymentMethod =
           await StripePayment.paymentRequestWithCardForm(cardForm);
 
-      final paymentIntent =
-          await this._createPaymentIntent(amount: amount, currency: currency);
+      final respuestaPago = await this._realizarPago(
+        amount: amount,
+        currency: currency,
+        paymentMethod: paymentMethod,
+      );
 
       return StripeCustomResponse(
         ok: true,
@@ -96,5 +99,28 @@ class StripeService {
     @required String amount,
     @required String currency,
     @required PaymentMethod paymentMethod,
-  }) async {}
+  }) async {
+    try {
+      final paymentIntent = await this._createPaymentIntent(
+        amount: amount,
+        currency: currency,
+      );
+
+      final paymentResult = await StripePayment.confirmPaymentIntent(
+        PaymentIntent(
+          clientSecret: paymentIntent.clientSecret,
+          paymentMethodId: paymentMethod.id,
+        ),
+      );
+
+      if (paymentResult.status == 'succeeded'){
+        return StripeCustomResponse(ok: true, msg: 'Pago realizado');
+      } else {
+        return StripeCustomResponse(ok: false, msg: 'Fallo: ${paymentResult.status}');
+      }
+
+    } catch (e) {
+      return StripeCustomResponse(ok: false, msg: e.toString());
+    }
+  }
 }
