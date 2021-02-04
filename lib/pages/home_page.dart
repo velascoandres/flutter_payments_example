@@ -5,9 +5,12 @@ import 'package:flutter_payments_example/bloc/pagar/pagar_bloc.dart';
 import 'package:flutter_payments_example/helpers/helpers.dart';
 import 'package:flutter_payments_example/mocks/tarjetas_credito_mock.dart';
 import 'package:flutter_payments_example/pages/tarjeta_page.dart';
+import 'package:flutter_payments_example/services/stripe_service.dart';
 import 'package:flutter_payments_example/widgets/total_pay_button.dart';
 
 class HomePage extends StatelessWidget {
+  final StripeService stripeService = new StripeService();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -21,10 +24,20 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
+              final monto = pagarBloc.state.montoPagarString;
+              final moneda = pagarBloc.state.moneda;
+
               mostrarLoading(context);
-              await Future.delayed(Duration(seconds: 1));
+              final resp = await this.stripeService.pagarConNuevaTarjeta(
+                    amount: monto,
+                    currency: moneda,
+                  );
               Navigator.pop(context);
-              mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+              if (resp.ok) {
+                mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+              } else {
+                mostrarAlerta(context, 'Notificación', 'Algo salió mal');
+              }
             },
           ),
         ],
