@@ -17,3 +17,9 @@ dependencies {
 }
 ```
 
+Dar permisos de acceder a internet en el `AndroidManifest.xml`
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+
+```

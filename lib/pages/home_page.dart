@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_payments_example/bloc/pagar/pagar_bloc.dart';
 import 'package:flutter_payments_example/helpers/helpers.dart';
 import 'package:flutter_payments_example/mocks/tarjetas_credito_mock.dart';
+import 'package:flutter_payments_example/pages/pago_completo_page.dart';
 import 'package:flutter_payments_example/pages/tarjeta_page.dart';
 import 'package:flutter_payments_example/services/stripe_service.dart';
 import 'package:flutter_payments_example/widgets/total_pay_button.dart';
@@ -24,9 +25,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
-
               mostrarLoading(context);
-
 
               final monto = pagarBloc.state.montoPagarString;
               final moneda = pagarBloc.state.moneda;
@@ -38,6 +37,13 @@ class HomePage extends StatelessWidget {
               Navigator.pop(context);
               if (resp.ok) {
                 mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+                Navigator.push(
+                  context,
+                  navegarFadeIn(
+                    context,
+                    PagoCompletoPage(),
+                  ),
+                );
               } else {
                 mostrarAlerta(context, 'Notificación', 'Algo salió mal');
               }

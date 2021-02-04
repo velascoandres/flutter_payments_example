@@ -12,7 +12,7 @@ class PagarState {
 
 
   PagarState({
-    this.montoPagar = 1.5,
+    this.montoPagar = 375.55,
     this.moneda = 'USD',
     this.tarjetaActiva = false,
     this.tarjeta,

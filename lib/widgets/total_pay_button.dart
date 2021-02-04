@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_payments_example/bloc/pagar/pagar_bloc.dart';
 import 'package:flutter_payments_example/helpers/helpers.dart';
+import 'package:flutter_payments_example/pages/pago_completo_page.dart';
 import 'package:flutter_payments_example/services/stripe_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stripe_payment/stripe_payment.dart';
@@ -93,7 +94,7 @@ class _BtnPay extends StatelessWidget {
         ],
       ),
       onPressed: () async {
-       await this._establecerPagoGooglePay(context);
+        await this._establecerPagoGooglePay(context);
       },
     );
   }
@@ -151,6 +152,13 @@ class _BtnPay extends StatelessWidget {
     Navigator.pop(context);
     if (response.ok) {
       mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+      Navigator.push(
+        context,
+        navegarFadeIn(
+          context,
+          PagoCompletoPage(),
+        ),
+      );
     } else {
       mostrarAlerta(context, 'Notificación', 'Algo salió mal');
     }
@@ -172,6 +180,13 @@ class _BtnPay extends StatelessWidget {
     Navigator.pop(context);
     if (response.ok) {
       mostrarAlerta(context, 'Notificación', 'Todo ha salido bien');
+      Navigator.push(
+        context,
+        navegarFadeIn(
+          context,
+          PagoCompletoPage(),
+        ),
+      );
     } else {
       mostrarAlerta(context, 'Notificación', 'Algo salió mal');
     }

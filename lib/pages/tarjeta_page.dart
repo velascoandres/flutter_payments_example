@@ -11,7 +11,7 @@ class TarjetaPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pagar'),
+        title: Text('Pagar con: ${tarjeta.cardNumberHidden}...'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
